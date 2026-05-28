@@ -24,6 +24,9 @@ public class EffectManager {
         effects.put(0, Vital::new);
         effects.put(1, IncreasedSpeed::new);
         effects.put(2, LowGravity::new);
+        effects.put(3, LowHealth::new);
+        effects.put(4, NoGravity::new);
+        effects.put(5, StrongGravity::new);
     }
 
     public void rollEffect(Player player)
