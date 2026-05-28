@@ -3,6 +3,7 @@ package me.arvia.mcrtd;
 import me.arvia.mcrtd.effects.*;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +23,7 @@ public class EffectManager {
         effects = new HashMap<>();
         effects.put(0, Vital::new);
         effects.put(1, IncreasedSpeed::new);
+        effects.put(2, LowGravity::new);
     }
 
     public void rollEffect(Player player)
@@ -29,7 +31,9 @@ public class EffectManager {
         int option = (int) (Math.random() * effects.size());
         RTDEffect rolledEffect = effects.get(option).get();
 
-        player.sendMessage(rolledEffect.getName() + ": " + rolledEffect.getDescription()); // show effect to player
+        ChatColor color = (rolledEffect.isPositive())?ChatColor.GREEN:ChatColor.RED;
+
+        player.sendMessage(color + rolledEffect.getName() + ": " + rolledEffect.getDescription()); // show effect to player
         rolledEffect.apply(player); // apply effect on player
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> { // wait set time before removing effect

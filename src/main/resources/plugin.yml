@@ -4,3 +4,8 @@ version: '${version}'
 main: me.arvia.mcrtd.RollTheDiceMC
 api-version: '26.1.2'
 load: POSTWORLD
+
+commands:
+  rtd:
+    description: Rolls the dice
+    usage: /<command>
