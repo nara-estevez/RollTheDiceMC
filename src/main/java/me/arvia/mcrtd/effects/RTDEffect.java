@@ -8,15 +8,8 @@ public abstract class RTDEffect {
     private String description;
     private boolean isPositive;
 
-    public RTDEffect() {
-    }
-
-    void apply(Player player) {
-
-    }
-
-    void remove(Player player) {
-    }
+    public abstract void apply(Player player);
+    public abstract void remove(Player player);
 
     // SETTERS
     public void setName(String name) {
@@ -33,16 +26,16 @@ public abstract class RTDEffect {
     }
 
     // GETTERS
-    String getName() {
+    public String getName() {
         return this.name;
     }
-    String getDescription() {
+    public String getDescription() {
         return this.description;
     }
-    int getDurationSeconds() {
+    public int getDurationSeconds() {
         return this.durationSeconds;
     }
-    boolean isPositive() {
+    public boolean isPositive() {
         return this.isPositive;
     }
 }

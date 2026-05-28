@@ -6,12 +6,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RollTheDiceMC extends JavaPlugin {
-
     @Override
     public void onEnable() {
         final CooldownManager cooldownManager = new CooldownManager(30);
+        final EffectManager effectManager = new EffectManager(this);
 
-        getCommand("rtd").setExecutor(new RtdCommandHandler(cooldownManager));
+        getCommand("rtd").setExecutor(new RtdCommandHandler(cooldownManager, effectManager));
 
         getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler

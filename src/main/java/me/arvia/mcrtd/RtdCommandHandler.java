@@ -7,9 +7,11 @@ import org.bukkit.entity.Player;
 
 public class RtdCommandHandler implements CommandExecutor {
     private final CooldownManager cooldownManager;
+    private final EffectManager effectManager;
 
-    public RtdCommandHandler(CooldownManager cooldownManager) {
+    public RtdCommandHandler(CooldownManager cooldownManager, EffectManager effectManager) {
         this.cooldownManager = cooldownManager;
+        this.effectManager = effectManager;
     }
 
     @Override
@@ -20,11 +22,15 @@ public class RtdCommandHandler implements CommandExecutor {
             return true;
         }
 
+        // is player on cooldown?
         if (cooldownManager.isCooldownActive(player)) {
-
+            player.sendMessage("You must wait " + cooldownManager.getSecondsRemaining(player) + " seconds before rolling the dice!");
+            return true;
         }
 
-        player.sendMessage("Command was received by player: " + player.getName());
+        cooldownManager.startCooldown(player); // start cooldown for the rtd command
+        effectManager.rollEffect(player); // roll effect and apply it to player
+
         return true;
     }
 }
