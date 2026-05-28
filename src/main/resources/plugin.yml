@@ -1,0 +1,6 @@
+name: mcrtd
+version: '${version}'
+
+main: me.arvia.mcrtd.RollTheDiceMC
+api-version: '26.1.2'
+load: POSTWORLD
