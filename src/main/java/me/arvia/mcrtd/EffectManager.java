@@ -43,6 +43,7 @@ public class EffectManager {
         effects.put(11, Paranoia::new);
         effects.put(12, Explode::new);
         effects.put(13, Frozen::new);
+        effects.put(14, FireBreath::new);
     }
 
     public void rollEffect(Player player)

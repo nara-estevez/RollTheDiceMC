@@ -15,16 +15,20 @@ public class Snail extends RTDEffect {
     @Override
     public void apply(Player player) {
         AttributeInstance moveSpeed = player.getAttribute(Attribute.MOVEMENT_SPEED);
-        if (moveSpeed == null) { return; }
+        AttributeInstance gravity = player.getAttribute(Attribute.GRAVITY);
+        if (moveSpeed == null || gravity == null) { return; }
 
         moveSpeed.setBaseValue(0.1 / 4);
+        gravity.setBaseValue(0.08 * 2);
     }
 
     @Override
     public void remove(Player player) {
         AttributeInstance moveSpeed = player.getAttribute(Attribute.MOVEMENT_SPEED);
-        if (moveSpeed == null) { return; }
+        AttributeInstance gravity = player.getAttribute(Attribute.GRAVITY);
+        if (moveSpeed == null || gravity == null) { return; }
 
         moveSpeed.setBaseValue(0.1);
+        gravity.setBaseValue(0.08);
     }
 }
