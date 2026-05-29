@@ -42,6 +42,7 @@ public class EffectManager {
         effects.put(10, LongMelee::new);
         effects.put(11, Paranoia::new);
         effects.put(12, Explode::new);
+        effects.put(13, Frozen::new);
     }
 
     public void rollEffect(Player player)
@@ -65,14 +66,16 @@ public class EffectManager {
         rolledEffect.apply(player); // apply effect on player
         messageManager.broadcastString(player.getName() + " has rolled " + rolledEffect.getName(), color);
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> { // wait set time before removing effect
-            if(player.isOnline() && player.getPersistentDataContainer().has(activeEffect, PersistentDataType.INTEGER)) {
-                rolledEffect.remove(player);
-                player.getPersistentDataContainer().remove(activeEffect);
-                messageManager.sendString(player, "Your perk has worn off.");
-                messageManager.broadcastString(player.getName() + "'s perk has worn off.");
-            }
-        }, rolledEffect.getDurationSeconds() * 20L);
+        if (rolledEffect.getDurationSeconds() != 0)
+        {
+            Bukkit.getScheduler().runTaskLater(plugin, () -> { // wait set time before removing effect
+                if(player.isOnline() && player.getPersistentDataContainer().has(activeEffect, PersistentDataType.INTEGER)) {
+                    rolledEffect.remove(player);
+                    player.getPersistentDataContainer().remove(activeEffect);
+                    messageManager.broadcastString(player.getName() + "'s perk has worn off.");
+                }
+            }, rolledEffect.getDurationSeconds() * 20L);
+        }
     }
 
     public void clearEffects(Player player)
