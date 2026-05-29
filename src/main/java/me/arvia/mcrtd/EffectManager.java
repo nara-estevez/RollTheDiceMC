@@ -17,10 +17,12 @@ import java.util.function.Supplier;
 public class EffectManager {
     private final NamespacedKey activeEffect;
     private final JavaPlugin plugin;
+    private final MessageManager messageManager;
 
-    public EffectManager(JavaPlugin plugin) {
+    public EffectManager(JavaPlugin plugin, MessageManager messageManager) {
         this.plugin = plugin;
         activeEffect = new NamespacedKey(plugin, "activeEffect");
+        this.messageManager = messageManager;
     }
 
     // add to effects map with all the effects as they get made
@@ -39,6 +41,7 @@ public class EffectManager {
         effects.put(9, Snail::new);
         effects.put(10, LongMelee::new);
         effects.put(11, Paranoia::new);
+        effects.put(12, Explode::new);
     }
 
     public void rollEffect(Player player)
@@ -57,16 +60,17 @@ public class EffectManager {
             color = ChatColor.RED;
         }
 
-        player.sendMessage(color + "[RTD] " + rolledEffect.getName() + ": " + rolledEffect.getDescription()); // show effect to player
+        messageManager.sendString(player, rolledEffect.getName() + ": " + rolledEffect.getDescription(), color);
         player.getPersistentDataContainer().set(activeEffect, PersistentDataType.INTEGER, option);
         rolledEffect.apply(player); // apply effect on player
-
+        messageManager.broadcastString(player.getName() + " has rolled " + rolledEffect.getName(), color);
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> { // wait set time before removing effect
             if(player.isOnline() && player.getPersistentDataContainer().has(activeEffect, PersistentDataType.INTEGER)) {
                 rolledEffect.remove(player);
                 player.getPersistentDataContainer().remove(activeEffect);
-                player.sendMessage(color + "[RTD] The effect has run out");
+                messageManager.sendString(player, "Your perk has worn off.");
+                messageManager.broadcastString(player.getName() + "'s perk has worn off.");
             }
         }, rolledEffect.getDurationSeconds() * 20L);
     }
