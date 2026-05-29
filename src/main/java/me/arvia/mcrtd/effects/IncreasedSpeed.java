@@ -17,7 +17,7 @@ public class IncreasedSpeed extends RTDEffect {
         AttributeInstance moveSpeed = player.getAttribute(Attribute.MOVEMENT_SPEED);
         if (moveSpeed == null) { return; }
 
-        moveSpeed.setBaseValue(0.7 * 3);
+        moveSpeed.setBaseValue(0.1 * 3);
     }
 
     @Override
@@ -25,6 +25,6 @@ public class IncreasedSpeed extends RTDEffect {
         AttributeInstance moveSpeed = player.getAttribute(Attribute.MOVEMENT_SPEED);
         if (moveSpeed == null) { return; }
 
-        moveSpeed.setBaseValue(0.7);
+        moveSpeed.setBaseValue(0.1);
     }
 }

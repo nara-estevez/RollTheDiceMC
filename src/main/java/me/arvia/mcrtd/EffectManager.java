@@ -19,7 +19,7 @@ public class EffectManager {
 
     public EffectManager(JavaPlugin plugin) {
         this.plugin = plugin;
-        activeEffect = new NamespacedKey(JavaPlugin.getPlugin(JavaPlugin.class), "activeEffect");
+        activeEffect = new NamespacedKey(plugin, "activeEffect");
     }
 
     // add to effects map with all the effects as they get made
@@ -52,6 +52,7 @@ public class EffectManager {
             if(player.isOnline()) {
                 rolledEffect.remove(player);
                 player.getPersistentDataContainer().remove(activeEffect);
+                player.sendMessage(color + "[RTD] The effect has run out");
             }
         }, rolledEffect.getDurationSeconds() * 20L);
     }

@@ -27,13 +27,11 @@ public class RtdCommandHandler implements CommandExecutor {
         effectManager.rollEffect(player); // roll effect and apply it to player
     }
 
-
     private void handleRTDClear(Player player)
     {
         cooldownManager.clearCooldown(player);
         effectManager.clearEffects(player);
     }
-
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String [] args) {
@@ -48,12 +46,16 @@ public class RtdCommandHandler implements CommandExecutor {
                 handleRTD(player);
                 break;
             case "rtd-clear":
+                if (!sender.isOp())
+                {
+                    sender.sendMessage("[RTD] You must be a server operator to run this command.");
+                    return true;
+                }
                 if (args.length < 1)
                 {
                     sender.sendMessage("[RTD] You need to specify a player name.");
                     return true;
                 }
-
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null)
                 {

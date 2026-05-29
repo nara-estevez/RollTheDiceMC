@@ -21,7 +21,7 @@ public class TinyMann extends RTDEffect {
         }
 
         scale.setBaseValue(0.1);
-        speed.setBaseValue(0.7 * 2);
+        speed.setBaseValue(0.1 * 2);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class TinyMann extends RTDEffect {
         }
 
         scale.setBaseValue(1);
-        speed.setBaseValue(0.7);
+        speed.setBaseValue(0.1);
     }
 
 }

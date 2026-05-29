@@ -14,7 +14,7 @@ public class Ignition extends RTDEffect {
 
     @Override
     public void apply(Player player) {
-        player.setFireTicks(100); // 100 ticks equivalent to 5 seconds
+        player.setFireTicks(200); // 200 ticks equivalent to 10 seconds
     }
 
     @Override

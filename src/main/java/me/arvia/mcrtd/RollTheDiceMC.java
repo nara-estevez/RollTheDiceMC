@@ -1,5 +1,6 @@
 package me.arvia.mcrtd;
 
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -13,8 +14,11 @@ public final class RollTheDiceMC extends JavaPlugin {
     public void onEnable() {
         cooldownManager = new CooldownManager(40);
         effectManager = new EffectManager(this);
+        getLogger().info(ChatColor.GREEN + "[RollTheDiceMC] Enabled");
 
-        getCommand("rtd").setExecutor(new RtdCommandHandler(cooldownManager, effectManager));
+        RtdCommandHandler commandHandler = new RtdCommandHandler(cooldownManager, effectManager);
+        getCommand("rtd").setExecutor(commandHandler);
+        getCommand("rtd-clear").setExecutor(commandHandler);
 
         getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
