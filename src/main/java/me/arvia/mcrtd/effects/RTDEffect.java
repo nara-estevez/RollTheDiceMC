@@ -1,8 +1,10 @@
 package me.arvia.mcrtd.effects;
 
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class RTDEffect {
+    private JavaPlugin plugin;
     private int durationSeconds;
     private String name;
     private String description;
@@ -24,6 +26,9 @@ public abstract class RTDEffect {
     public void setIsPositive(boolean isPositive) {
         this.isPositive = isPositive;
     }
+    public void setPlugin(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     // GETTERS
     public String getName() {
@@ -37,5 +42,8 @@ public abstract class RTDEffect {
     }
     public boolean isPositive() {
         return this.isPositive;
+    }
+    public JavaPlugin getPlugin() {
+        return this.plugin;
     }
 }

@@ -1,6 +1,7 @@
 package me.arvia.mcrtd;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,6 +32,8 @@ public class RtdCommandHandler implements CommandExecutor {
     {
         cooldownManager.clearCooldown(player);
         effectManager.clearEffects(player);
+
+        player.sendMessage("[RTD] Your effects have been cleared by an operator.");
     }
 
     @Override
@@ -64,6 +67,7 @@ public class RtdCommandHandler implements CommandExecutor {
                 }
 
                 handleRTDClear(target);
+                sender.sendMessage("[RTD] Effects on " + target.getName() + " have been cleared.");
                 break;
             case "rtd-set-cooldown":
                 if (!sender.isOp())
@@ -77,10 +81,17 @@ public class RtdCommandHandler implements CommandExecutor {
                     return true;
                 }
 
+                int cooldown;
                 try {
-                    cooldownManager.setCooldownSeconds(Integer.parseInt(args[0]));
+                    cooldown = Integer.parseInt(args[1]);
                 } catch (Exception e) {
                     sender.sendMessage("[RTD] Invalid cooldown in seconds.");
+                    return true;
+                }
+                cooldownManager.setCooldownSeconds(cooldown);
+                sender.sendMessage("[RTD] Cooldown successfully set.");
+                if (cooldown < 40) {
+                    sender.sendMessage(ChatColor.YELLOW + "[RTD] WARNING: Cooldown timer is less than 40 seconds. This may lead to RTD effects overlapping and breaking. Consider setting a higher cooldown.");
                 }
                 break;
         }

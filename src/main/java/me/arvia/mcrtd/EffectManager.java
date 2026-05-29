@@ -36,12 +36,16 @@ public class EffectManager {
         effects.put(6, FastHands::new);
         effects.put(7, TinyMann::new);
         effects.put(8, Ignition::new);
+        effects.put(9, Snail::new);
+        effects.put(10, LongMelee::new);
+        effects.put(11, Paranoia::new);
     }
 
     public void rollEffect(Player player)
     {
         int option = (int) (Math.random() * effects.size());
         RTDEffect rolledEffect = effects.get(option).get();
+        rolledEffect.setPlugin(plugin); // some effects need plugin to work
 
         ChatColor color;
         if (rolledEffect.isPositive())
@@ -54,8 +58,9 @@ public class EffectManager {
         }
 
         player.sendMessage(color + "[RTD] " + rolledEffect.getName() + ": " + rolledEffect.getDescription()); // show effect to player
-        rolledEffect.apply(player); // apply effect on player
         player.getPersistentDataContainer().set(activeEffect, PersistentDataType.INTEGER, option);
+        rolledEffect.apply(player); // apply effect on player
+
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> { // wait set time before removing effect
             if(player.isOnline() && player.getPersistentDataContainer().has(activeEffect, PersistentDataType.INTEGER)) {
@@ -70,6 +75,7 @@ public class EffectManager {
     {
         if (player.getPersistentDataContainer().has(activeEffect, PersistentDataType.INTEGER)) {
             Integer playerEffectIndex = player.getPersistentDataContainer().get(activeEffect, PersistentDataType.INTEGER);
+            Bukkit.getScheduler().cancelTasks(plugin);
 
             effects.get(playerEffectIndex).get().remove(player);
 
