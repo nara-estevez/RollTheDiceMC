@@ -9,3 +9,7 @@ commands:
   rtd:
     description: Rolls the dice
     usage: /<command>
+  rtd-clear:
+    description: Removes the effect from the player in the argument
+    usage: /<command> <playerName>
+    default: op
