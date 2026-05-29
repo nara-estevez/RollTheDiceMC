@@ -17,7 +17,7 @@ public class Vital extends RTDEffect {
         AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
         if (maxHealth == null) { return; }
 
-        maxHealth.setBaseValue(maxHealth.getBaseValue() * 2);
+        maxHealth.setBaseValue(20 * 2);
         player.setHealth(Math.min(player.getHealth() * 2, maxHealth.getBaseValue()));
     }
 
@@ -26,7 +26,7 @@ public class Vital extends RTDEffect {
         AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
         if (maxHealth == null) { return; }
 
-        maxHealth.setBaseValue(maxHealth.getBaseValue() / 2);
+        maxHealth.setBaseValue(20);
         player.setHealth(Math.min(player.getHealth(), maxHealth.getBaseValue()));
     }
 }

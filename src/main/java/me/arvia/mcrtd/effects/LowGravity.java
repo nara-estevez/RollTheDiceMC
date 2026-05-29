@@ -19,7 +19,7 @@ public class LowGravity extends RTDEffect {
             return;
         }
 
-        gravity.setBaseValue(gravity.getBaseValue() / 2);
+        gravity.setBaseValue(0.08 / 2);
     }
 
     @Override
@@ -29,6 +29,6 @@ public class LowGravity extends RTDEffect {
             return;
         }
 
-        gravity.setBaseValue(gravity.getBaseValue() * 2);
+        gravity.setBaseValue(0.08);
     }
 }

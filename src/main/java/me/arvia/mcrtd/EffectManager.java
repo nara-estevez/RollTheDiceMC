@@ -33,6 +33,8 @@ public class EffectManager {
         effects.put(4, NoGravity::new);
         effects.put(5, StrongGravity::new);
         effects.put(6, FastHands::new);
+        effects.put(7, TinyMann::new);
+        effects.put(8, Ignition::new);
     }
 
     public void rollEffect(Player player)
@@ -49,6 +51,7 @@ public class EffectManager {
         Bukkit.getScheduler().runTaskLater(plugin, () -> { // wait set time before removing effect
             if(player.isOnline()) {
                 rolledEffect.remove(player);
+                player.getPersistentDataContainer().remove(activeEffect);
             }
         }, rolledEffect.getDurationSeconds() * 20L);
     }

@@ -1,0 +1,24 @@
+package me.arvia.mcrtd.effects;
+
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.Player;
+
+public class Ignition extends RTDEffect {
+    public Ignition() {
+        setName("Ignition");
+        setDescription("You get set on fire!");
+        setDurationSeconds(0);
+        setIsPositive(false);
+    }
+
+    @Override
+    public void apply(Player player) {
+        player.setFireTicks(100); // 100 ticks equivalent to 5 seconds
+    }
+
+    @Override
+    public void remove(Player player) {
+        // do nothing, fire runs out on its own
+    }
+}
