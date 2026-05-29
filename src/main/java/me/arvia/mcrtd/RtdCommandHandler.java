@@ -65,6 +65,24 @@ public class RtdCommandHandler implements CommandExecutor {
 
                 handleRTDClear(target);
                 break;
+            case "rtd-set-cooldown":
+                if (!sender.isOp())
+                {
+                    sender.sendMessage("[RTD] You must be a server operator to run this command.");
+                    return true;
+                }
+                if (args.length < 1)
+                {
+                    sender.sendMessage("[RTD] You must specify the length of the cooldown in seconds.");
+                    return true;
+                }
+
+                try {
+                    cooldownManager.setCooldownSeconds(Integer.parseInt(args[0]));
+                } catch (Exception e) {
+                    sender.sendMessage("[RTD] Invalid cooldown in seconds.");
+                }
+                break;
         }
 
         return true;

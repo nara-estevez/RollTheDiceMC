@@ -19,6 +19,7 @@ public final class RollTheDiceMC extends JavaPlugin {
         RtdCommandHandler commandHandler = new RtdCommandHandler(cooldownManager, effectManager);
         getCommand("rtd").setExecutor(commandHandler);
         getCommand("rtd-clear").setExecutor(commandHandler);
+        getCommand("rtd-set-cooldown").setExecutor(commandHandler);
 
         getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler

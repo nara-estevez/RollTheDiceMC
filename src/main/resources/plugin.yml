@@ -13,3 +13,7 @@ commands:
     description: Removes the effect from the player in the argument
     usage: /<command> <playerName>
     default: op
+  rtd-set-cooldown:
+    description: Allows operators to change cooldown between rolls (default 40)
+    usage: /<command> <cooldownSeconds>
+    default: op
