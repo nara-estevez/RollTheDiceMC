@@ -5,6 +5,7 @@ import me.arvia.mcrtd.effects.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,14 +43,22 @@ public class EffectManager {
         int option = (int) (Math.random() * effects.size());
         RTDEffect rolledEffect = effects.get(option).get();
 
-        ChatColor color = (rolledEffect.isPositive())?ChatColor.GREEN:ChatColor.RED;
+        ChatColor color;
+        if (rolledEffect.isPositive())
+        {
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 1);
+            color = ChatColor.GREEN;
+        } else {
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_TRUMPET_OXIDIZED, 1, 1);
+            color = ChatColor.RED;
+        }
 
         player.sendMessage(color + "[RTD] " + rolledEffect.getName() + ": " + rolledEffect.getDescription()); // show effect to player
         rolledEffect.apply(player); // apply effect on player
         player.getPersistentDataContainer().set(activeEffect, PersistentDataType.INTEGER, option);
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> { // wait set time before removing effect
-            if(player.isOnline()) {
+            if(player.isOnline() && player.getPersistentDataContainer().has(activeEffect, PersistentDataType.INTEGER)) {
                 rolledEffect.remove(player);
                 player.getPersistentDataContainer().remove(activeEffect);
                 player.sendMessage(color + "[RTD] The effect has run out");

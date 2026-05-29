@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class CooldownManager {
     private final Map<UUID, Long> cooldowns = new HashMap<>();
-    private final int cooldownSeconds;
+    private int cooldownSeconds;
 
     public CooldownManager(int cooldownSeconds) {
         this.cooldownSeconds = cooldownSeconds;
@@ -41,5 +41,9 @@ public class CooldownManager {
         long timeElapsed = (currentTime - lastCooldown) / 1000;
 
         return cooldownSeconds - timeElapsed;
+    }
+
+    public void setCooldownSeconds(int cooldownSeconds) {
+        this.cooldownSeconds = cooldownSeconds;
     }
 }

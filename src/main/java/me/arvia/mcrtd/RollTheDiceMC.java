@@ -26,6 +26,11 @@ public final class RollTheDiceMC extends JavaPlugin {
                 cooldownManager.clearCooldown(event.getPlayer());
                 effectManager.clearEffects(event.getPlayer());
             }
+
+            @EventHandler
+            public void onJoin(PlayerJoinEvent event) {
+                cooldownManager.startCooldown(event.getPlayer()); // cooldown on join before you can rtd
+            }
         }, RollTheDiceMC.this);
     }
 }
