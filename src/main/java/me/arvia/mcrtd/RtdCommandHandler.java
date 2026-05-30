@@ -18,7 +18,7 @@ public class RtdCommandHandler implements CommandExecutor {
         this.messageManager = messageManager;
     }
 
-    private void handleRTD(Player player)
+    private void handleRTD(Player player, int option)
     {
         // is player on cooldown?
         if (cooldownManager.isCooldownActive(player)) {
@@ -27,7 +27,8 @@ public class RtdCommandHandler implements CommandExecutor {
         }
 
         cooldownManager.startCooldown(player); // start cooldown for the rtd command
-        effectManager.rollEffect(player); // roll effect and apply it to player
+        option = (option == -1) ? (int) (Math.random() * effectManager.getEffectsAmount()) : option; // if no option given, roll a random one
+        effectManager.rollEffect(player, option); // roll effect and apply it to player
     }
 
     private void handleRTDClear(Player player)
@@ -36,6 +37,11 @@ public class RtdCommandHandler implements CommandExecutor {
         effectManager.clearEffects(player);
 
         messageManager.sendString(player, "Your effects have been cleared by an operator.");
+    }
+
+    private boolean doesPlayerExist(Player player)
+    {
+        return (player != null && player.isOnline());
     }
 
     @Override
@@ -48,7 +54,21 @@ public class RtdCommandHandler implements CommandExecutor {
                     return true;
                 }
 
-                handleRTD(player);
+                int rtdOption = -1;
+                if (args.length > 0 && player.isOp()) // if sender is operator and tries to force effect, allow them
+                {
+                    rtdOption = Integer.parseInt(args[0]);
+                    if (args.length > 1) { // if also sends name of a player
+                        String playerName = args[1];
+                        Player target = Bukkit.getPlayer(playerName);
+                        if (doesPlayerExist(target))
+                        {
+                            player = target;
+                        }
+                    }
+                }
+
+                handleRTD(player, rtdOption);
                 break;
             case "rtd-clear":
                 if (!sender.isOp())
@@ -62,9 +82,9 @@ public class RtdCommandHandler implements CommandExecutor {
                     return true;
                 }
                 Player target = Bukkit.getPlayer(args[0]);
-                if (target == null)
+                if (!doesPlayerExist(target))
                 {
-                    messageManager.sendString(sender, "That player is not online.");
+                    messageManager.sendString(sender, "That player is not online or does not exist.");
                     return true;
                 }
 

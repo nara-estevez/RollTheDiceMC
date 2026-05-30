@@ -44,13 +44,23 @@ public class EffectManager {
         effects.put(12, Explode::new);
         effects.put(13, Frozen::new);
         effects.put(14, FireBreath::new);
+        effects.put(15, LuckySandvich::new);
+        effects.put(16, InventoryShuffle::new);
+        effects.put(17, Hungry::new);
+        effects.put(18, Drugged::new);
+        effects.put(19, LuckyDrop::new);
     }
 
-    public void rollEffect(Player player)
+    public void rollEffect(Player player, int option)
     {
-        int option = (int) (Math.random() * effects.size());
         RTDEffect rolledEffect = effects.get(option).get();
         rolledEffect.setPlugin(plugin); // some effects need plugin to work
+
+        boolean effectIsInstant = (rolledEffect.getDurationSeconds() == 0);
+        if (!effectIsInstant)
+        {
+            player.getPersistentDataContainer().set(activeEffect, PersistentDataType.INTEGER, option);
+        }
 
         ChatColor color;
         if (rolledEffect.isPositive())
@@ -63,11 +73,11 @@ public class EffectManager {
         }
 
         messageManager.sendString(player, rolledEffect.getName() + ": " + rolledEffect.getDescription(), color);
-        player.getPersistentDataContainer().set(activeEffect, PersistentDataType.INTEGER, option);
+
         rolledEffect.apply(player); // apply effect on player
         messageManager.broadcastString(player.getName() + " has rolled " + rolledEffect.getName(), color);
 
-        if (rolledEffect.getDurationSeconds() != 0)
+        if (!effectIsInstant)
         {
             Bukkit.getScheduler().runTaskLater(plugin, () -> { // wait set time before removing effect
                 if(player.isOnline() && player.getPersistentDataContainer().has(activeEffect, PersistentDataType.INTEGER)) {
@@ -89,5 +99,10 @@ public class EffectManager {
 
             player.getPersistentDataContainer().remove(activeEffect);
         }
+    }
+
+    public int getEffectsAmount()
+    {
+        return effects.size();
     }
 }

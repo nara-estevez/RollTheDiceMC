@@ -1,7 +1,5 @@
 package me.arvia.mcrtd.effects;
 
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 
 public class Ignition extends RTDEffect {
